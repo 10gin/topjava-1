@@ -29,8 +29,7 @@ git clone --branch spring_boot --single-branch https://github.com/JavaWebinar/to
 - В нашем приложении остались только REST контроллеры, не надо добавлять `Rest` в имя. Каждый контроллер занимается своими CRUD, переименовал `Admin[Rest]Controller` в `AdminUserController`
 - Заменил префикс `/rest` в URLs на `/api`
 - Исключил `AppConfig.h2Server` из тестов, он там не нужен
-- Удалил проверки `ValidationUtil.checkNotFound`. Есть готовый метод `JpaRepository.getById`, который бросает `EntityNotFoundException`. Добавил обработку `EntityNotFoundException`
-  в `GlobalExceptionHandler`.
+- Удалил проверки `ValidationUtil.checkNotFound`. Для `get` использую `ResponseEntity.of(repository.findById(id))`, для модификаций `Repository.checkBelong`
 - Сделал `BaseRepository` - сюда можно размещать [общие методы репозиториев](https://stackoverflow.com/questions/42781264/multiple-base-repositories-in-spring-data-jpa)
 - Вместо своих конверторов использую `@DateTimeFormat`
 - Мигрировал все тесты контроллеров. В тестовом проекте столько тестов **НЕ ТРЕБУЕТСЯ**, достаточно нескольких на основные юзкейсов.

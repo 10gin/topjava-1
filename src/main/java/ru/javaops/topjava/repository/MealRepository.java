@@ -13,11 +13,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface MealRepository extends BaseRepository<Meal> {
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
-    int delete(int id, int userId);
-
     @Query("SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
     List<Meal> getAll(int userId);
 
@@ -31,7 +26,7 @@ public interface MealRepository extends BaseRepository<Meal> {
     Optional<Meal> getWithUser(int id, int userId);
 
     default Meal checkBelong(int id, int userId) {
-        return get(userId, id).orElseThrow(
+        return get(id, userId).orElseThrow(
                 () -> new IllegalRequestDataException("Meal id=" + id + " doesn't belong to User id=" + userId));
     }
 }
